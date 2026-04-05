@@ -5,8 +5,11 @@
 }
 
 body {
-  overflow: hidden;
   font-family: 'Outfit', sans-serif;
+}
+
+body.desktop-mode {
+  overflow: hidden;
 }
 
 #root {

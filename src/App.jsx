@@ -1710,6 +1710,16 @@ export default function EugenOS() {
 
   const T = THEMES[theme];
 
+  // Lock body scroll on desktop, allow it on mobile
+  useEffect(() => {
+    if (isMobile) {
+      document.body.classList.remove("desktop-mode");
+    } else {
+      document.body.classList.add("desktop-mode");
+    }
+    return () => document.body.classList.remove("desktop-mode");
+  }, [isMobile]);
+
   // Clock
   useEffect(() => {
     const tick = () => {
@@ -2084,8 +2094,8 @@ function MobileApp({ theme, setTheme }) {
 
       {/* Scrollable launcher */}
       <div style={{
-        paddingTop: 56, paddingBottom: 32, minHeight: "100vh",
-        overflowY: "auto", fontFamily: "'Outfit', sans-serif",
+        paddingTop: 56, paddingBottom: 80, minHeight: "100dvh",
+        fontFamily: "'Outfit', sans-serif",
       }}>
         {/* Hero */}
         <div style={{ textAlign: "center", padding: "28px 24px 20px" }}>
