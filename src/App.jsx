@@ -919,10 +919,17 @@ function TerminalWin({ theme }) {
       { t: "output", v: "  ping        — Ping the internet" },
       { t: "output", v: "  weather     — Current weather" },
       { t: "output", v: "  joke        — Random dev joke" },
+      { t: "output", v: "  fortune     — Fortune cookie" },
       { t: "output", v: "  coffee      — Brew coffee" },
-      { t: "output", v: "  sudo        — Try it 😏" },
+      { t: "output", v: "  echo <msg>  — Echo a message" },
       { t: "output", v: "  cowsay      — cowsay <text>" },
+      { t: "output", v: "  hostname    — System hostname" },
+      { t: "output", v: "  pwd         — Current directory" },
+      { t: "output", v: "  man         — Manual page" },
+      { t: "output", v: "  history     — Command history" },
+      { t: "output", v: "  sudo        — Try it 😏" },
       { t: "output", v: "  matrix      — Go deeper" },
+      { t: "output", v: "  exit        — Try to leave" },
       { t: "output", v: "  clear       — Clear terminal" },
     ],
     about: () => [
@@ -1013,12 +1020,57 @@ function TerminalWin({ theme }) {
       { t: "output", v: "  LinkedIn : linkedin.com/in/eugen-sekiraqa-76b597210" },
       { t: "output", v: "  GitHub   : github.com/eugen-sekiraqa" },
     ],
-    whoami: () => [{ t: "accent", v: "eugen@EugenOS ~ %" }],
-    uptime: () => [
-      { t: "accent", v: "up 5+ years, building scalable .NET solutions" },
-      { t: "output", v: "  Still compiling. Still shipping. Never stopping." },
-    ],
-    date: () => [{ t: "output", v: new Date().toString() }],
+    whoami: () => {
+      const intros = [
+        "Eugen Sekiraqa — Software Developer from Prishtina, Kosovo",
+        "A full-stack .NET developer who dreams in C# and wakes up to SQL queries",
+        "The guy who turns coffee into Blazor components since 2021",
+        "eugen@EugenOS — 5+ years of shipping code that actually works",
+        "A developer who thinks 'it works on my machine' is not a deployment strategy",
+        "MSc student by day, production bug fixer by night",
+        "Someone who chose .NET over sleep — and would do it again",
+      ];
+      const facts = [
+        "Currently building enterprise apps at Komtel Project Engineering",
+        "Has mass of Blazor and ASP.NET projects under his belt",
+        "Believes clean architecture is not optional, it's a lifestyle",
+        "Once optimized a SQL query so hard it ran before you clicked the button",
+        "Still waiting for that one day with zero compiler warnings",
+        "Speaks fluent C#, conversational SQL, and broken JavaScript",
+      ];
+      return [
+        { t: "accent", v: "  " + intros[Math.floor(Math.random() * intros.length)] },
+        { t: "output", v: "  " + facts[Math.floor(Math.random() * facts.length)] },
+      ];
+    },
+    uptime: () => {
+      const start = new Date(2021, 3, 1);
+      const now = new Date();
+      const years = ((now - start) / (365.25 * 24 * 60 * 60 * 1000)).toFixed(1);
+      const lines = [
+        `  up ${years} years — still compiling, still shipping`,
+        `  ${years} years in the game. No signs of stopping.`,
+        `  Runtime: ${years}y. Bugs squashed: too many to count.`,
+        `  ${years} years of uptime. 0 planned downtime. coffee.daemon keeps it running.`,
+      ];
+      return [
+        { t: "accent", v: lines[Math.floor(Math.random() * lines.length)] },
+      ];
+    },
+    date: () => {
+      const d = new Date();
+      const day = d.toLocaleDateString("en-US", { weekday: "long" });
+      const time = d.toLocaleTimeString();
+      const msgs = [
+        `It's ${day} — perfect day to ship some code.`,
+        `${day}, ${time}. Time flies when you're debugging.`,
+        `${day}. The compiler doesn't care what day it is.`,
+      ];
+      return [
+        { t: "output", v: "  " + d.toString() },
+        { t: "output", v: "  " + msgs[Math.floor(Math.random() * msgs.length)] },
+      ];
+    },
     neofetch: () => [
       { t: "accent", v: "  ███████╗██╗   ██╗ ██████╗ ███████╗███╗   ██╗" },
       { t: "accent", v: "  ██╔════╝██║   ██║██╔════╝ ██╔════╝████╗  ██║" },
@@ -1071,43 +1123,137 @@ function TerminalWin({ theme }) {
       { t: "accent", v: "  commit e0f2812 — init: scaffold e-Procurement KEP backend" },
       { t: "output", v: "  Date: Mon Oct 18 08:00:00 2021" },
     ],
-    ping: () => [
-      { t: "output", v: "  PING google.com (142.250.185.46): 56 bytes" },
-      { t: "green", v: "  64 bytes from 142.250.185.46: time=12ms" },
-      { t: "green", v: "  64 bytes from 142.250.185.46: time=11ms" },
-      { t: "green", v: "  64 bytes from 142.250.185.46: time=13ms" },
-      { t: "output", v: "  3 packets transmitted, 3 received, 0% loss" },
-    ],
-    weather: () => [
-      { t: "accent", v: "  🌤 Prishtina, Kosovo" },
-      { t: "output", v: "  Partly Cloudy · 18°C / 64°F" },
-      { t: "output", v: "  Humidity: 52% · Wind: 14 km/h" },
-      { t: "output", v: "  Perfect coding weather." },
-    ],
+    ping: () => {
+      const t1 = Math.floor(Math.random() * 20) + 5;
+      const t2 = Math.floor(Math.random() * 20) + 5;
+      const t3 = Math.floor(Math.random() * 20) + 5;
+      const avg = ((t1 + t2 + t3) / 3).toFixed(1);
+      return [
+        { t: "output", v: "  PING google.com (142.250.185.46): 56 bytes" },
+        { t: "green", v: `  64 bytes from 142.250.185.46: time=${t1}ms` },
+        { t: "green", v: `  64 bytes from 142.250.185.46: time=${t2}ms` },
+        { t: "green", v: `  64 bytes from 142.250.185.46: time=${t3}ms` },
+        { t: "output", v: `  3 packets transmitted, 3 received, 0% loss, avg=${avg}ms` },
+      ];
+    },
+    weather: () => {
+      const conditions = [
+        { icon: "🌤", desc: "Partly Cloudy", temp: 18, hum: 52, wind: 14 },
+        { icon: "☀️", desc: "Clear Sky", temp: 24, hum: 35, wind: 8 },
+        { icon: "🌧", desc: "Light Rain", temp: 12, hum: 78, wind: 20 },
+        { icon: "⛅", desc: "Mostly Cloudy", temp: 15, hum: 65, wind: 11 },
+        { icon: "🌩", desc: "Thunderstorm", temp: 10, hum: 90, wind: 30 },
+        { icon: "❄️", desc: "Snowy", temp: -2, hum: 80, wind: 25 },
+      ];
+      const w = conditions[Math.floor(Math.random() * conditions.length)];
+      const comments = [
+        "Perfect coding weather.",
+        "Stay inside. Write code.",
+        "The compiler doesn't care about weather.",
+        "Great day to refactor something.",
+        "Weather.exe has stopped responding.",
+      ];
+      return [
+        { t: "accent", v: `  ${w.icon} Prishtina, Kosovo` },
+        { t: "output", v: `  ${w.desc} · ${w.temp}°C / ${Math.round(w.temp * 9/5 + 32)}°F` },
+        { t: "output", v: `  Humidity: ${w.hum}% · Wind: ${w.wind} km/h` },
+        { t: "output", v: `  ${comments[Math.floor(Math.random() * comments.length)]}` },
+      ];
+    },
     joke: () => {
       const jokes = [
         "Why do programmers prefer dark mode? Because light attracts bugs.",
         "A SQL query walks into a bar, walks up to two tables and asks... 'Can I join you?'",
         "Why do C# developers wear glasses? Because they can't C++.",
-        "How many programmers does it take to change a light bulb? None — it's a hardware problem.",
+        "!false — it's funny because it's true.",
         "A Blazor developer walks into a bar. The bartender says: 'Please wait, rehydrating...'",
+        "There are only 10 types of people — those who understand binary and those who don't.",
+        "My code doesn't have bugs. It has undocumented features.",
+        "git commit -m 'fixed it' — narrator: he did not fix it.",
+        "// TODO: write better code. Written 3 years ago.",
+        "The best thing about a boolean is that even if you're wrong, you're only off by a bit.",
+        "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+        "Debugging: being the detective in a crime movie where you're also the murderer.",
+        "I'd tell you a UDP joke, but you might not get it.",
+        "A QA engineer walks into a bar. Orders 1 beer. Orders 0 beers. Orders -1 beers. Orders 999999 beers. Orders a lizard. Orders NULL.",
+        "Saying 'JavaScript is good' is like saying 'the fire is warm'. Technically true, but you're missing the bigger picture.",
+        "In order to understand recursion, you must first understand recursion.",
+        "It's not a bug — it's an undocumented feature approved by management.",
       ];
       return [{ t: "output", v: "  😂 " + jokes[Math.floor(Math.random() * jokes.length)] }];
     },
-    coffee: () => [
-      { t: "accent", v: "  ☕ Brewing..." },
-      { t: "output", v: "  [████████████████████] 100%" },
-      { t: "green", v: "  Coffee ready. Code quality +50%." },
+    coffee: () => {
+      const brews = [
+        { name: "Espresso", bonus: "Focus +80%", icon: "☕" },
+        { name: "Macchiato", bonus: "Code quality +50%", icon: "☕" },
+        { name: "Double Shot", bonus: "Typing speed +200%", icon: "☕☕" },
+        { name: "Turkish Coffee", bonus: "Debugging intuition +90%", icon: "🫖" },
+      ];
+      const b = brews[Math.floor(Math.random() * brews.length)];
+      return [
+        { t: "accent", v: `  ${b.icon} Brewing ${b.name}...` },
+        { t: "output", v: "  [████████████████████] 100%" },
+        { t: "green", v: `  ${b.name} ready. ${b.bonus}.` },
+      ];
+    },
+    sudo: () => {
+      const responses = [
+        [{ t: "red", v: "  eugen is not in the sudoers file." }, { t: "output", v: "  This incident will be reported." }],
+        [{ t: "red", v: "  Nice try. Access denied." }, { t: "output", v: "  Your attempt has been logged and sent to /dev/null." }],
+        [{ t: "red", v: "  Permission denied." }, { t: "output", v: "  With great power comes great responsibility. You're not ready." }],
+        [{ t: "red", v: "  sudo: command not found in portfolio OS." }, { t: "output", v: "  This is a democracy, not a dictatorship." }],
+      ];
+      return responses[Math.floor(Math.random() * responses.length)];
+    },
+    matrix: () => {
+      const scenes = [
+        [{ t: "green", v: "  Wake up, Neo..." }, { t: "green", v: "  The Matrix has you..." }, { t: "green", v: "  Follow the white rabbit. 🐇" }, { t: "output", v: "  (You're already in it — this is a portfolio OS)" }],
+        [{ t: "green", v: "  There is no spoon." }, { t: "green", v: "  There is only C# and the occasional NullReferenceException." }],
+        [{ t: "green", v: "  You take the blue pill — the story ends." }, { t: "green", v: "  You take the red pill — you learn Blazor." }, { t: "green", v: "  You took the red pill. Welcome. 🐇" }],
+      ];
+      return scenes[Math.floor(Math.random() * scenes.length)];
+    },
+    fortune: () => {
+      const fortunes = [
+        "Your next deploy will succeed on the first try.",
+        "A great opportunity disguised as a merge conflict is heading your way.",
+        "The bug you've been chasing will reveal itself after a coffee break.",
+        "You will refactor something beautiful today.",
+        "Beware of commits pushed on Fridays.",
+        "An unexpected code review will teach you something new.",
+        "Your test coverage will improve dramatically this week.",
+        "A senior developer will praise your clean architecture.",
+        "The CI/CD pipeline smiles upon you today.",
+        "Today's lucky number: 200 OK.",
+      ];
+      return [
+        { t: "accent", v: "  🔮 Fortune Cookie:" },
+        { t: "output", v: "  " + fortunes[Math.floor(Math.random() * fortunes.length)] },
+      ];
+    },
+    hostname: () => [{ t: "accent", v: "  EugenOS.local" }],
+    "rm -rf /": () => [
+      { t: "red", v: "  🚨 NICE TRY." },
+      { t: "output", v: "  Portfolio OS has self-preservation instincts." },
+      { t: "output", v: "  All your files are safe. For now." },
     ],
-    sudo: () => [
-      { t: "red", v: "  eugen is not in the sudoers file." },
-      { t: "output", v: "  This incident will be reported. (jk 😏)" },
+    exit: () => [
+      { t: "output", v: "  logout" },
+      { t: "accent", v: "  Thanks for visiting! But you can't escape this terminal that easily." },
     ],
-    matrix: () => [
-      { t: "green", v: "  Wake up, Neo..." },
-      { t: "green", v: "  The Matrix has you..." },
-      { t: "green", v: "  Follow the white rabbit. 🐇" },
-      { t: "output", v: "  (You're already in it — this is a portfolio OS)" },
+    pwd: () => [{ t: "accent", v: "  /home/eugen/portfolio" }],
+    man: () => [
+      { t: "accent", v: "  EUGEN(1)               EugenOS Manual              EUGEN(1)" },
+      { t: "output", v: "" },
+      { t: "output", v: "  NAME" },
+      { t: "output", v: "       eugen - a full-stack .NET developer" },
+      { t: "output", v: "" },
+      { t: "output", v: "  SYNOPSIS" },
+      { t: "output", v: "       eugen [--coffee] [--code] [--ship]" },
+      { t: "output", v: "" },
+      { t: "output", v: "  DESCRIPTION" },
+      { t: "output", v: "       Builds enterprise web apps. Runs on caffeine." },
+      { t: "output", v: "       Returns clean code. Throws only when necessary." },
     ],
     clear: () => null,
   };
@@ -1149,6 +1295,16 @@ function TerminalWin({ theme }) {
       const fname = trimmed.slice(4).trim();
       const content = catFiles[fname];
       setLines((l) => [...l, inputLine, ...(content || [{ t: "red", v: `  cat: ${fname}: No such file or directory` }])]);
+      return;
+    }
+    if (trimmed === "history") {
+      const recent = hist.slice(0, 10);
+      setLines((l) => [...l, inputLine, ...recent.map((h, i) => ({ t: "output", v: `  ${recent.length - i}  ${h}` })), ...(recent.length === 0 ? [{ t: "output", v: "  (no history yet)" }] : [])]);
+      return;
+    }
+    if (trimmed.startsWith("echo ")) {
+      const msg = raw.slice(5);
+      setLines((l) => [...l, inputLine, { t: "output", v: "  " + msg }]);
       return;
     }
     if (trimmed.startsWith("cowsay ")) {
